@@ -16,7 +16,7 @@ void Display(Node* root, int nivel)
 //programul va primi ca parametru numărul pe care trebuie să îl adauge
 Node *Add_Node(Node *root,int data)
 {
-    //verificam mai intai dacă există o rădăcină (dacă arborele a fost creat)
+//verificam mai intai dacă există o rădăcină (dacă arborele a fost creat)
 //Alocam memorie pentru noul nod si stabilim valorile pentru data,left_child,right_child.
 
     if(root==NULL)
@@ -35,6 +35,7 @@ Node *Add_Node(Node *root,int data)
     }
     return root;
 }
+
 void preorder (Node *root)//RSD
 {
     //daca nu s-a ajuns la ultimul nod
@@ -47,6 +48,8 @@ void preorder (Node *root)//RSD
         preorder(root->right);
     }
 }
+
+
 void inorder(Node *root) //SRD
 {
     //daca nu s-a ajuns la ultimul nod
@@ -57,6 +60,8 @@ void inorder(Node *root) //SRD
         inorder(root->right);//se viziteaza copilul din dreapta
     }
 }
+
+
 void postorder(Node *root)
 {
     if (root!=NULL)//daca nu s-a ajuns la ultimul nod
@@ -67,12 +72,15 @@ void postorder(Node *root)
     }
 }
 
+
 Node* FindMin(Node* root)
 {
     while(root->left != NULL)
         root = root->left;
     return root;
 }
+
+
 Node* Delete( Node *root, int data)
 {
     if(root == NULL)
@@ -116,7 +124,7 @@ Node* Delete( Node *root, int data)
 }
 
 
-int findNode(Node* root, int searchedData)
+bool findNode(Node* root, int searchedData)
 {
     int found = 0;
     Node *current = root;
@@ -136,7 +144,12 @@ int findNode(Node* root, int searchedData)
             current = current->left;
         }
     }
-    return found;
+    if (found == 1)
+    {
+        return true;
+    }
+
+    return false;
 }
 
 
@@ -150,68 +163,91 @@ Node *findMax(Node *root)
 }
 
 
-void findSuccessor(Node *root, Node *&successor,int data)
+Node *inordSuccessor(Node *root, Node *aNode)
 {
-    if(root == NULL)
+    Node *successor = NULL;
+    Node *current = root;
+    if (!root)
     {
-        successor = NULL;
-        return;
+        return NULL;
     }
-    // daca nodul este gasit, succesorul este valoarea minima a
-    // subtree ului din dreapta, daca exista
-    if(root->data == data)
+
+    while(current->data != aNode->data)
     {
-        if(root->right != NULL)
+        // daca valoarea memorata in nodul curent este
+        // mai mare decat cea pe care o cautam, cautam
+        // in subtree ul din stanga, altfel in cel din
+        // dreapta
+        if (current->data > aNode->data)
         {
-            successor = FindMin(root->right);
+            // update nodul current
+            successor = current;
+            current = current->left;
         }
+        else
+        {
+            current = current->right;
+        }
+        //
     }
-    // daca data transmisa functiei are o valoare mai mica decat cea
-    // memorata in root, se apeleaza functia recursiv pentru
-    // subtree ul din stanga
-    else if (data < root->data)
+    if (current && current->right)
     {
-        successor = root;
-        findSuccessor(root->left, successor, data);
+        successor = FindMin(current->right);
     }
-    else
-    {
-        findSuccessor(root->right, successor, data);
-    }
+    return successor;
 }
 
 
-void findPredecessor(Node *root, Node *&predecessor, int data)
+Node *inordPredecessor(Node *root, Node *aNode)
 {
-    // tree ul nu are niciun element
-    if(root == NULL)
+    Node *predecessor = NULL;
+    Node *current = root;
+    // tree ul nu are niciun nod
+    if(!root)
     {
-        predecessor = NULL;
-        return;
+        return NULL;
     }
-    // if node with key s value is found, the predecessor is maximum
-    // value node in its left subtree
     // daca nodul este gasit, predecesorul este valoarea maxima din
     // subtree ul din stanga
-    if (root->data == data)
+
+    while (current && current->data != data)
     {
-        if(root->left != NULL)
+        if(current->data > aNode->data)
         {
-            predecessor = findMax(root->left);
+            current = current ->left;
+        }
+        else
+        {
+            predecessor = current;
+            current = current ->right;
         }
     }
-    // daca data transmisa functiei are o valoare mai mare decat cea
-    // memorata in root, se apeleaza functia recursiv pentru
-    // subtree ul din dreapta
-    else if (data > root->data)
+    if(current && current ->right)
     {
-        // update predecesorului la nodul curent inaintea apelului recursiv
-        // in subtree ul din dreapta
-        predecessor = root;
-        findPredecessor(root->right, predecessor, data);
+        predecessor = findMax(current->left);
     }
-    else
+    return predecessor;
+}
+
+
+Node *getNodeByData(Node *root, int data)
+{
+    Node *current = root;
+
+    while(current != NULL)
     {
-        findPredecessor(root->right, predecessor, data);
+        if (current->data == searchedData)
+        {
+            break;
+        }
+        else if (searchedData > current->data)
+        {
+            current = current->right;
+        }
+        else
+        {
+            current = current->left;
+        }
     }
+    return current;
 }

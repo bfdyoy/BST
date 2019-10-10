@@ -3,6 +3,7 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include <stdbool.h>
 
 typedef struct _Node
 {
@@ -19,9 +20,10 @@ void inorder(Node *root);
 void postorder(Node *root);
 Node* FindMin(Node *root);
 Node* Delete( Node *root, int data);
-int findNode(Node *root, int searchedData);
+bool findNode(Node *root, int searchedData);
 Node *findMax(Node *root);
-void findSuccessor(Node *root, Node *&successor, int data);
-void findPredecessor (Node *root, Node *&predecessor, int data);
+Node *inordSuccessor(Node *root, Node *aNode);
+Node *inordPredecessor (Node *root, Node *aNode);
+Node *NodeByData (Node *root, int data);
 
 #endif // TREES_H_INCLUDED
