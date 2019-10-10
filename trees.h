@@ -19,8 +19,8 @@ void inorder(Node *root);
 void postorder(Node *root);
 Node* FindMin(Node *root);
 Node* Delete( Node *root, int data);
-int findNode(Node *root, int searchedData); // de adaugat
-Node *findMax(Node *root); // de adaugat
+int findNode(Node *root, int searchedData);
+Node *findMax(Node *root);
 void findSuccessor(Node *root, Node *&successor, int data);
 void findPredecessor (Node *root, Node *&predecessor, int data);
 

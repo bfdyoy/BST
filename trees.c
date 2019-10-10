@@ -1,4 +1,5 @@
 #include "trees.h"
+
 void Display(Node* root, int nivel)
 {
     int i;
@@ -148,8 +149,7 @@ Node *findMax(Node *root)
     return root;
 }
 
-//recursive function to find inorder successor for
-// given key in BST (successor is passed by reference)
+
 void findSuccessor(Node *root, Node *&successor,int data)
 {
     if(root == NULL)
@@ -157,8 +157,8 @@ void findSuccessor(Node *root, Node *&successor,int data)
         successor = NULL;
         return;
     }
-    // if node with key s value is found, the successor is min value
-    // node in its right subtree (if any)
+    // daca nodul este gasit, succesorul este valoarea minima a
+    // subtree ului din dreapta, daca exista
     if(root->data == data)
     {
         if(root->right != NULL)
@@ -166,7 +166,9 @@ void findSuccessor(Node *root, Node *&successor,int data)
             successor = FindMin(root->right);
         }
     }
-    // if given key is less than the root node, recur for left subtree
+    // daca data transmisa functiei are o valoare mai mica decat cea
+    // memorata in root, se apeleaza functia recursiv pentru
+    // subtree ul din stanga
     else if (data < root->data)
     {
         successor = root;
@@ -178,11 +180,10 @@ void findSuccessor(Node *root, Node *&successor,int data)
     }
 }
 
-//recursive function to find inorder predecessor for
-// given key in BST (predecessor is passed by reference)
+
 void findPredecessor(Node *root, Node *&predecessor, int data)
 {
-    // tree is empty
+    // tree ul nu are niciun element
     if(root == NULL)
     {
         predecessor = NULL;
@@ -190,6 +191,8 @@ void findPredecessor(Node *root, Node *&predecessor, int data)
     }
     // if node with key s value is found, the predecessor is maximum
     // value node in its left subtree
+    // daca nodul este gasit, predecesorul este valoarea maxima din
+    // subtree ul din stanga
     if (root->data == data)
     {
         if(root->left != NULL)
@@ -197,15 +200,16 @@ void findPredecessor(Node *root, Node *&predecessor, int data)
             predecessor = findMax(root->left);
         }
     }
-    //if given key is more than the root node, recur for right subtree
+    // daca data transmisa functiei are o valoare mai mare decat cea
+    // memorata in root, se apeleaza functia recursiv pentru
+    // subtree ul din dreapta
     else if (data > root->data)
     {
-        // update predecessor to current node before recursing
-        // in right subtree
+        // update predecesorului la nodul curent inaintea apelului recursiv
+        // in subtree ul din dreapta
         predecessor = root;
         findPredecessor(root->right, predecessor, data);
     }
-    // if given key is less than root node,recur for left subtree
     else
     {
         findPredecessor(root->right, predecessor, data);
