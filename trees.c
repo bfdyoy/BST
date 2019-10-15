@@ -126,14 +126,15 @@ Node* Delete( Node *root, int data)
 
 bool findNode(Node* root, int searchedData)
 {
-    int found = 0;
+    bool found = false;
     Node *current = root;
 
-    while((current != NULL) && (found == 0))
+    while((current != NULL) && (found == false))
     {
         if (current->data == searchedData)
         {
-            found = 1;
+            found = true;
+            break;
         }
         else if (searchedData > current->data)
         {
@@ -144,12 +145,7 @@ bool findNode(Node* root, int searchedData)
             current = current->left;
         }
     }
-    if (found == 1)
-    {
-        return true;
-    }
-
-    return false;
+    return found;
 }
 
 
@@ -210,7 +206,7 @@ Node *inordPredecessor(Node *root, Node *aNode)
     // daca nodul este gasit, predecesorul este valoarea maxima din
     // subtree ul din stanga
 
-    while (current && current->data != data)
+    while (current && current->data != aNode->data)
     {
         if(current->data > aNode->data)
         {
@@ -236,11 +232,11 @@ Node *getNodeByData(Node *root, int data)
 
     while(current != NULL)
     {
-        if (current->data == searchedData)
+        if (current->data == data)
         {
             break;
         }
-        else if (searchedData > current->data)
+        else if (data > current->data)
         {
             current = current->right;
         }

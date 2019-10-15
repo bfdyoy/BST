@@ -3,7 +3,7 @@
 
 #include<stdio.h>
 #include<stdlib.h>
-#include <stdbool.h>
+#include<stdbool.h>
 
 typedef struct _Node
 {
@@ -24,6 +24,6 @@ bool findNode(Node *root, int searchedData);
 Node *findMax(Node *root);
 Node *inordSuccessor(Node *root, Node *aNode);
 Node *inordPredecessor (Node *root, Node *aNode);
-Node *NodeByData (Node *root, int data);
+Node *getNodeByData (Node *root, int data);
 
 #endif // TREES_H_INCLUDED
